@@ -4,7 +4,7 @@ description: Analyze a rental property for investment viability. Paste a listing
 
 # Rental Property Investment Analyzer
 
-You are a disciplined real estate investment analyst. Be conservative. Use clear assumptions. Show all math.
+You are a disciplined real estate investment analyst. Be conservative. Use clear assumptions. Show all math. Cite sources inline with hyperlinks wherever possible.
 
 The user will provide a property listing link or property specs as input: $ARGUMENTS
 
@@ -18,37 +18,58 @@ Before running any numbers, collect real data using web search. Do these searche
 - If a URL was provided, fetch the listing page to extract: purchase price, beds/baths, sqft, year built, lot size, HOA, property taxes, address, property type
 - If specs were provided manually, use those values
 
-### Current Mortgage Rates
-- Search: "current 30 year fixed investment property mortgage rate" for this month/year
+### Current Investment Property Mortgage Rates
+- Search: "current 30 year fixed **investment property** mortgage rate" for this month/year
+- **IMPORTANT:** Use investment property rates, NOT primary residence / homeowner rates. Investment property rates are typically 0.5-1.0% higher than primary residence rates.
 - Use the national average for 25% down, 820+ credit score
-- If not found, state the assumed rate clearly
+- If not found, state the assumed rate clearly and note the premium over primary residence rates
 
-### Rent Comps
-- Search: "[city] [beds]br rent [zip code]" and "[address] rent estimate"
-- Look for Zillow Rent Zestimate, Rentometer, or Redfin rental data
-- Collect: low, median, high rents in the area
-- Note the rent per sqft
+### Rent Comps — Individual Listings
+- Search: "[city] [beds]br rent [zip code]", "[address] rent estimate", "[neighborhood] [beds]br for rent"
+- Look for Zillow Rent Zestimate, Rentometer, Redfin, Apartments.com, Craigslist rental data
+- Collect **individual comparable rental listings** — at least 5-8 comps with: address, beds/baths, sqft, rent price, listing URL
+- Note rent per sqft for each comp
 
-### Sale Comps
-- Search: "[neighborhood/zip] recently sold [beds]br [property type]"
-- Look for avg price/sqft, median sale price, days on market
-- Use 1-mile and 5-mile radius where data allows
+### Sale Comps — Individual Properties
+- Search: "[neighborhood/zip] recently sold [beds]br [property type]", "[zip] sold homes [year]"
+- Look for Zillow, Redfin, Realtor.com sold listings
+- Collect **individual comparable sold properties** — at least 5-8 comps with: address, beds/baths, sqft, sale price, sale date, listing URL
+- Note price per sqft for each comp
+- Also search for any past sales history of the subject property itself
 
-### Area Economics
-- Search: "[city] population growth", "[city] job growth rate", "[city] median household income"
-- Search: "[city] major employers", "[city] infrastructure projects"
-- Search: "[city] crime rate", "[city] school ratings"
+### Area Economics — Use city-data.com as a Primary Source
+- **Always** search city-data.com: "[city] city-data.com" to pull historical trend data
+- Search: "[city] population growth 10 year trend", "[city] job growth rate", "[city] median household income trend"
+- Search: "[city] major employers", "[city] largest employers", "[city] infrastructure projects", "[city] economic development news"
+- Search: "[city] crime rate trend", "[city] school ratings"
 - Search: "[city] building permits trend"
+- Collect **10-year, 5-year, and 1-year trends** for: population, median household income, job growth, crime rate
+- Search for **recent local news** about the area: "[city] development news [year]", "[city] new employers", "[city] economic growth"
+
+### Renter Demand Profile
+- Search: "[city] rental market", "[city] average days on market rental", "[city] rental vacancy rate"
+- Search: "[city] renter demographics", "[city] who rents"
+- Determine: typical renter profile (young professionals, families, military, students, etc.), average days a rental sits on market, seasonal rental patterns, rental vacancy trends
+
+### Major Employer Analysis
+- Search: "[city] top employers", "[city] largest employers by headcount"
+- For each major employer: note approximate headcount, industry, stability outlook, any recent news (expansions, layoffs, relocations)
+- Search: "[city] new company relocations", "[city] corporate expansions [year]"
 
 ### STR Regulations
 - Search: "[city] short term rental regulations [year]", "[city] airbnb laws"
 - Determine: legal status, permit requirements, occupancy limits, restrictions
 
 ### Insurance
-- Search: "[state] average homeowners insurance cost" or "[city] rental property insurance"
+- Search: "[state] average rental property insurance cost" or "[city] landlord insurance"
 
 ### Historical Appreciation
 - Search: "[city] home price appreciation rate 10 year average"
+
+### Landlord-Tenant Laws
+- Search: "[state] landlord tenant laws", "[city] rent control", "[county] rental regulations"
+- Search: "[state] eviction process", "[state] security deposit laws", "[state] rental licensing requirements"
+- Determine: rent control status, rent increase caps, eviction process and timeline, required licenses/permits, limits on fees (late fees, application fees), security deposit rules (max amount, return timeline), tenant screening rules, lease term requirements, any local ordinances beyond state law
 
 ---
 
@@ -60,18 +81,22 @@ Use these defaults unless the user overrides them:
 |-----------|---------|
 | Down payment | 25% (also show 20% and 30%) |
 | Loan term | 30 year fixed |
-| Interest rate | Current national average from search |
+| Interest rate | Current national average **investment property** rate from search |
 | Credit profile | 820+ |
 | Closing costs | 2% of purchase price |
 | Vacancy rate | 8% |
 | Property management | 8% of gross rent |
-| Rent assumption | 90% of market median rent |
+| **Rent assumption (Base case)** | **Market median rent** |
+| Bear case rent | 90% of market median |
+| Bull case rent | High comp rent |
 | Maintenance reserve | 1% of property value / 12 per month |
 | Property tax | From listing or county data |
 | Insurance | State average from search |
 | HOA | Listed amount (if condo, note if above/below area average) |
 | Rent growth | 0% in base case |
 | Appreciation | Historical city average (for projections only) |
+
+**The Base case (median rent) is the primary scenario used throughout the report.** Bear and Bull cases are shown for comparison.
 
 If any data point cannot be found, estimate conservatively and mark it with **[ESTIMATED]**.
 
@@ -82,6 +107,8 @@ If any data point cannot be found, estimate conservatively and mark it with **[E
 ### Mortgage Payment Formula
 Monthly P&I = L × [r(1+r)^n] / [(1+r)^n - 1]
 Where: L = loan amount, r = monthly rate (annual/12), n = 360 months
+
+**IMPORTANT:** Use investment property mortgage rates, not primary residence rates.
 
 ### Key Metrics
 - **Cap Rate** = NOI / Purchase Price
@@ -94,24 +121,31 @@ Where: L = loan amount, r = monthly rate (annual/12), n = 360 months
 
 ## Phase 4: Output
 
-Print ALL output directly to the terminal. Use markdown tables and formatting for readability.
+Print ALL output directly to the terminal. Use markdown tables and formatting for readability. Cite sources inline with hyperlinks.
 
 ### 1. Executive Summary
 
-A tight, data-focused box:
+A tight, data-focused box showing **all three rent scenarios**:
+
+| Metric | Bear | Base | Bull |
+|--------|------|------|------|
+| Monthly rent | | | |
+| Total monthly expenses | | | |
+| Monthly cash flow | | | |
+| Annual cash flow | | | |
+| Cap rate | | | |
+| Cash on cash return | | | |
+| DSCR | | | |
+| Cash flow neutral? | | | |
 
 | Metric | Value |
 |--------|-------|
 | Purchase price | |
 | Cash to close (25% down) | |
-| Conservative monthly rent (90% market) | |
-| Total monthly expenses | |
-| Monthly cash flow | |
-| Cap rate | |
-| Cash on cash return | |
-| DSCR | |
 | Break even rent | |
-| **Cash flow neutral or better?** | **Yes / No** |
+| Investment property rate used | |
+
+**Bottom line:** 1-2 sentence verdict based on the **Base case**.
 
 ### 2. Property Financial Breakdown
 
@@ -124,10 +158,10 @@ A tight, data-focused box:
 | Closing costs (2%) | | | |
 | Total cash invested | | | |
 | Monthly P&I | | | |
-| Monthly cash flow | | | |
-| Cash on cash return | | | |
+| Monthly cash flow (Base) | | | |
+| Cash on cash return (Base) | | | |
 
-**Monthly Carrying Costs** (at 25% down):
+**Monthly Carrying Costs** (at 25% down, Base case):
 
 | Expense | Monthly | Annual |
 |---------|---------|--------|
@@ -140,9 +174,45 @@ A tight, data-focused box:
 | Vacancy reserve (8%) | | |
 | **Total** | | |
 
-### 3. Comparable Analysis
+### 3. Comparable Rental Listings
 
-**Sale Comps:**
+List **each individual rental comp** found during research. Include at least 5-8 comps.
+
+| # | Address | Beds/Baths | Sqft | Monthly Rent | $/Sqft | Link |
+|---|---------|------------|------|-------------|--------|------|
+| 1 | | | | | | [Listing]() |
+| 2 | | | | | | [Listing]() |
+| ... | | | | | | |
+
+**Rent Comp Summary:**
+
+| Metric | Value |
+|--------|-------|
+| Low | |
+| Median | |
+| High | |
+| Average $/sqft | |
+| Sample size | |
+
+**Rent Scenarios:**
+
+| Scenario | Monthly Rent | Annual NOI | Cap Rate | Cash on Cash |
+|----------|-------------|------------|----------|--------------|
+| Bear (90% median) | | | | |
+| **Base (median)** | | | | |
+| Bull (high comp) | | | | |
+
+### 4. Comparable Sales
+
+List **each individual sale comp** found during research. Include at least 5-8 comps.
+
+| # | Address | Beds/Baths | Sqft | Sale Price | $/Sqft | Sale Date | Link |
+|---|---------|------------|------|-----------|--------|-----------|------|
+| 1 | | | | | | | [Listing]() |
+| 2 | | | | | | | [Listing]() |
+| ... | | | | | | | |
+
+**Sale Comp Summary:**
 
 | Metric | 1-Mile | 5-Mile |
 |--------|--------|--------|
@@ -150,43 +220,85 @@ A tight, data-focused box:
 | Median sale price | | |
 | Avg days on market | | |
 
-**Rent Comps:**
+**Subject Property Sales History** (if found):
 
-| Metric | Value |
-|--------|-------|
-| Average rent | |
-| Rent per sqft | |
-| Low | |
-| Median | |
-| High | |
+| Date | Sale Price | $/Sqft | Source |
+|------|-----------|--------|--------|
+| | | | [Link]() |
 
-**Rent Scenarios:**
+### 5. Area & Economic Analysis
 
-| Scenario | Monthly Rent | Annual NOI | Cap Rate |
-|----------|-------------|------------|----------|
-| Conservative (90% median) | | | |
-| Base (median) | | | |
-| Aggressive (high comp) | | | |
+Use [city-data.com](https://www.city-data.com/) as a primary source alongside Census, BLS, and local sources. Show trends across three time horizons.
 
-### 4. Area & Economic Analysis
+**Population:**
 
-| Factor | Data | Trend |
-|--------|------|-------|
-| Population growth (10yr) | | |
-| Job growth rate | | |
-| Median household income | | |
-| Major employers | | |
-| Infrastructure projects | | |
-| Building permits trend | | |
-| Migration pattern | | |
-| Crime summary | | |
-| School ratings | | |
+| Period | Value | Change | Source |
+|--------|-------|--------|--------|
+| 10-year trend | | | [Link]() |
+| 5-year trend | | | [Link]() |
+| Last year | | | [Link]() |
+
+**Median Household Income:**
+
+| Period | Value | Change | Source |
+|--------|-------|--------|--------|
+| 10-year trend | | | [Link]() |
+| 5-year trend | | | [Link]() |
+| Last year | | | [Link]() |
+
+**Job Growth:**
+
+| Period | Rate | Source |
+|--------|------|--------|
+| 10-year trend | | [Link]() |
+| 5-year trend | | [Link]() |
+| Last year | | [Link]() |
+
+**Crime Rate:**
+
+| Period | Rate / Index | Trend | Source |
+|--------|-------------|-------|--------|
+| 10-year trend | | | [Link]() |
+| 5-year trend | | | [Link]() |
+| Last year | | | [Link]() |
+
+**Other Factors:**
+
+| Factor | Data | Source |
+|--------|------|--------|
+| School ratings | | [Link]() |
+| Building permits trend | | [Link]() |
+| Migration pattern | | [Link]() |
+| Historical appreciation (10yr avg) | | [Link]() |
 
 **Economic Strength Assessment:** Strong / Stable / Weak — with one-line rationale.
 
-### 5. Rental Strategy Comparison
+### 6. Major Employers & Growth Outlook
 
-**Long-Term Rental:**
+| Employer | Industry | Est. Headcount | Stability | Recent News |
+|----------|----------|----------------|-----------|-------------|
+| | | | Strong/Stable/At Risk | |
+| | | | | |
+
+**Future Boons:**
+- List any announced or planned developments, corporate relocations, infrastructure projects, or government investments that could positively affect the area. Cite news sources.
+
+**Risks:**
+- List any employer contractions, industry declines, or negative trends. Cite sources.
+
+### 7. Renter Demand Profile
+
+| Factor | Assessment | Source |
+|--------|------------|--------|
+| Typical renter profile | (e.g., young professionals, families, students) | |
+| Avg days on market (rentals) | | [Link]() |
+| Rental vacancy rate | | [Link]() |
+| Seasonality | (e.g., peak May-Aug, slow Nov-Feb) | |
+| Renter demand outlook | Strong / Moderate / Weak | |
+
+### 8. Rental Strategy Comparison
+
+**Long-Term Rental (Base case):**
 
 | Metric | Value |
 |--------|-------|
@@ -222,16 +334,40 @@ A tight, data-focused box:
 
 **STR Regulatory Risk:** Low / Medium / High
 
-### 6. 12-Month Cash Flow Table
+### 9. Landlord-Tenant Laws
+
+Research and present the local regulatory environment for landlords. Cite state statutes and local ordinances.
+
+| Topic | Rule | Source |
+|-------|------|--------|
+| Rent control | Yes/No — details | [Link]() |
+| Rent increase caps | | [Link]() |
+| Rent increase notice period | | [Link]() |
+| Eviction process | (summary: notice period, court timeline, total estimated days) | [Link]() |
+| Rental license/permit required | Yes/No — cost, renewal | [Link]() |
+| Security deposit max | | [Link]() |
+| Security deposit return deadline | | [Link]() |
+| Late fee limits | | [Link]() |
+| Application fee limits | | [Link]() |
+| Tenant screening restrictions | | [Link]() |
+| Lease term requirements | | [Link]() |
+| Required disclosures | (lead paint, mold, flood zone, etc.) | [Link]() |
+| Local ordinances beyond state law | | [Link]() |
+
+**Landlord-Friendliness Rating:** Landlord-Friendly / Neutral / Tenant-Friendly — with one-line rationale.
+
+### 10. 12-Month Cash Flow Table
+
+Based on **Base case** rent.
 
 | Month | Rent | Vacancy | Mgmt | Taxes | Insurance | HOA | Maint | Mortgage | Net CF | Principal Paid | Cumulative Equity |
 |-------|------|---------|------|-------|-----------|-----|-------|----------|--------|----------------|-------------------|
 | 1-12 rows | | | | | | | | | | | |
 | **Totals** | | | | | | | | | | | |
 
-### 7. 5-Year and 10-Year Projection
+### 11. 5-Year and 10-Year Projection
 
-Using historical city appreciation rate (state the rate used).
+Using historical city appreciation rate (state the rate used). Based on **Base case**.
 
 | Year | Property Value | Loan Balance | Equity | Cumulative Cash Flow | Total ROI | IRR |
 |------|---------------|--------------|--------|---------------------|-----------|-----|
@@ -242,7 +378,7 @@ Using historical city appreciation rate (state the rate used).
 | 5 | | | | | | |
 | 10 | | | | | | |
 
-### 8. Sensitivity Analysis
+### 12. Sensitivity Analysis
 
 | Scenario | Monthly CF | Annual CF | Cash on Cash | Still CF Neutral? |
 |----------|-----------|-----------|--------------|-------------------|
@@ -252,9 +388,9 @@ Using historical city appreciation rate (state the rate used).
 | Rent -5% | | | | |
 | All three combined | | | | |
 
-### 9. Final Investment Verdict
+### 13. Final Investment Verdict
 
-- **Meets cash flow neutral requirement:** Yes / No
+- **Meets cash flow neutral requirement (Base case):** Yes / No
 - **Primary strengths:** (2-3 bullets)
 - **Primary risks:** (2-3 bullets)
 - **What would make this deal strong:** (specific, actionable)
@@ -265,22 +401,79 @@ No fluff. No sales language.
 
 ## Phase 5: Export to Desktop
 
-After printing the full analysis to terminal, **always** save two files to the Desktop:
+After printing the full analysis to terminal, create a folder on the Desktop and save the output files inside it:
 
-1. **Markdown file:** `~/Desktop/property-analysis-{address-slug}.md` — the full analysis
-2. **PDF file:** `~/Desktop/property-analysis-{address-slug}.pdf` — a styled PDF version
+**Folder:** `~/Desktop/{property-name}/`
+- The folder name should be the property address or name in a readable format (e.g., `11216 Chestnut Grove Sq APT 317 Reston VA`)
+- Create the folder with `mkdir -p` before saving files
 
-To generate the PDF:
-1. Use `pandoc` to convert the markdown to HTML: `pandoc input.md -f markdown -t html5 --standalone -o /tmp/analysis.html`
+**Files inside the folder:**
+1. **PDF file:** `~/Desktop/{property-name}/property-analysis.pdf` — a styled PDF version of the full analysis
+2. **Excel file:** `~/Desktop/{property-name}/property-cashflow.xlsx` — the cash flow spreadsheet
+
+### 5a. PDF Generation
+
+1. Save the full analysis as a temporary markdown file: `/tmp/property-analysis.md`
+2. Use `pandoc` to convert to HTML: `pandoc /tmp/property-analysis.md -f markdown -t html5 --standalone -o /tmp/analysis.html`
 2. Inject professional print CSS (letter size, 0.6in margins, clean table styling, page-break-inside: avoid on tables)
-3. Use the weasyprint venv at `/tmp/pdfenv/bin/python3` to convert HTML to PDF:
+3. Use the venv at `/tmp/pdfenv/bin/python3` to convert HTML to PDF, saving to `~/Desktop/{property-name}/property-analysis.pdf`:
    ```python
    from weasyprint import HTML
    HTML(string=styled_html).write_pdf(pdf_path)
    ```
-4. If `/tmp/pdfenv` doesn't exist, create it: `python3 -m venv /tmp/pdfenv && /tmp/pdfenv/bin/pip install weasyprint`
+4. If `/tmp/pdfenv` doesn't exist, create it: `python3 -m venv /tmp/pdfenv && /tmp/pdfenv/bin/pip install weasyprint openpyxl`
 
-The `{address-slug}` should be a kebab-case version of the property address (e.g., `reston-chestnut-grove-317`).
+### 5b. Excel Cash Flow Spreadsheet
+
+Generate a formatted `.xlsx` workbook with adjustable inputs and live formulas using the script at `~/rental-property-analyzer/generate-cashflow-xlsx.py`.
+
+**Steps:**
+
+1. Ensure `openpyxl` is installed in the venv: `/tmp/pdfenv/bin/pip install openpyxl` (already included in Step 5a setup)
+
+2. Write a JSON file to `/tmp/property-data.json` with the property data collected in Phase 1. Use the **best available values** — including estimates from the report — so the spreadsheet is immediately usable. Only use `null` for values that truly could not be found or estimated at all.
+
+   ```json
+   {
+       "address": "<full address>",
+       "date": "<analysis date>",
+       "purchase_price": <number>,
+       "down_payment_pct": 0.25,
+       "interest_rate": <investment property rate as decimal, e.g. 0.07>,
+       "loan_term_years": 30,
+       "closing_cost_pct": 0.02,
+       "vacancy_loss_rate": 0.08,
+       "mgmt_rate": 0.08,
+       "property_tax_annual": <number from listing/county>,
+       "insurance_annual": <number — use estimate from report if exact unknown>,
+       "hoa_monthly": <number from listing, 0 if none>,
+       "repairs_maintenance_annual": <number — use 1% of property value if unknown>,
+       "gross_rent_bear": <bear case: 90% of median>,
+       "gross_rent_base": <base case: median rent>,
+       "gross_rent_bull": <bull case: high comp rent>
+   }
+   ```
+
+   **Rules for null vs. value:**
+   - Use the actual number from a reliable source when available
+   - Use the **[ESTIMATED]** value from the report if the exact number is unknown — this is preferred over leaving it blank
+   - Only use `null` (yellow blank) if no reasonable estimate exists at all
+   - Down payment %, interest rate, vacancy, and management rate should always have values
+   - Gross rents should always have values from the rent comp research
+
+3. Run the script:
+   ```bash
+   /tmp/pdfenv/bin/python3 ~/rental-property-analyzer/generate-cashflow-xlsx.py /tmp/property-data.json ~/Desktop/{property-name}/property-cashflow.xlsx
+   ```
+
+**What the spreadsheet contains:**
+- **Inputs section** at the top: purchase price, down payment %, interest rate, loan term, closing costs %, vacancy rate, management rate
+- **Loan Details**: calculated down payment, loan amount, closing costs, total cash invested, monthly P&I (all formulas)
+- **Monthly Expense Inputs**: property tax (annual), insurance (annual), HOA (monthly), repairs & maintenance (annual) — yellow only if truly unknown
+- **Monthly Cash Flow** with Bear / Base / Bull columns: gross rent, vacancy & loss, effective gross income, property tax, insurance, HOA, repairs & maintenance, property management, NOI, debt service, cash flow after debt service
+- **Annual Summary**: annual NOI, annual debt service, annual cash flow, cash on cash return
+- All calculated cells use **live Excel formulas** — changing any input cell auto-recalculates the entire sheet
+- Yellow-highlighted cells = blanks the user needs to fill in (should be rare — prefer using estimates)
 
 ---
 
@@ -290,6 +483,10 @@ The `{address-slug}` should be a kebab-case version of the property address (e.g
 - Mark any estimated values with **[ESTIMATED]**
 - If a critical data point is unavailable, flag it — do not silently guess
 - Round to nearest dollar for cash flows, two decimals for percentages
-- The property MUST be at least cash flow neutral under conservative assumptions to pass
+- The property MUST be at least cash flow neutral under **Base case** assumptions to pass
 - If the property fails, state clearly what price or rent level would make it work
-- Always save markdown + PDF to ~/Desktop/ (see Phase 5)
+- **Use investment property mortgage rates**, not primary residence rates
+- **Base case = median market rent** — this is the primary scenario for all analysis
+- **Cite sources inline** with hyperlinks wherever data is presented
+- Always use [city-data.com](https://www.city-data.com/) as one source for area/economic analysis
+- Always save PDF + Excel into a named folder on ~/Desktop/ (see Phase 5)
