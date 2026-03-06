@@ -17,6 +17,7 @@ Before running any numbers, collect real data using web search. Do these searche
 ### Property Data
 - If a URL was provided, fetch the listing page to extract: purchase price, beds/baths, sqft, year built, lot size, HOA, property taxes, address, property type
 - If specs were provided manually, use those values
+- **If no listing URL was provided**, search for the property on Zillow and Redfin by address to find the full listing details (HOA, property taxes, sqft, year built, lot size, etc.). Try: "[address] zillow", "[address] redfin"
 
 ### Current Investment Property Mortgage Rates
 - Search: "current 30 year fixed **investment property** mortgage rate" for this month/year
@@ -123,58 +124,13 @@ Where: L = loan amount, r = monthly rate (annual/12), n = 360 months
 
 Print ALL output directly to the terminal. Use markdown tables and formatting for readability. Cite sources inline with hyperlinks.
 
-### 1. Executive Summary
+**This output becomes the PDF — a market research report.** It covers the area, comps, employers, renter demand, and regulatory environment. It is NOT a property-specific financial model — that's what the Excel file is for. The PDF should be useful even if the user decides not to buy this specific property, because it captures the market context.
 
-A tight, data-focused box showing **all three rent scenarios**:
+The **Excel file** (generated in Phase 5) is the property-specific financial model with adjustable inputs and live formulas. All the deal-specific math lives there.
 
-| Metric | Bear | Base | Bull |
-|--------|------|------|------|
-| Monthly rent | | | |
-| Total monthly expenses | | | |
-| Monthly cash flow | | | |
-| Annual cash flow | | | |
-| Cap rate | | | |
-| Cash on cash return | | | |
-| DSCR | | | |
-| Cash flow neutral? | | | |
+---
 
-| Metric | Value |
-|--------|-------|
-| Purchase price | |
-| Cash to close (25% down) | |
-| Break even rent | |
-| Investment property rate used | |
-
-**Bottom line:** 1-2 sentence verdict based on the **Base case**.
-
-### 2. Property Financial Breakdown
-
-**Acquisition** — show side by side for 20%, 25%, 30% down:
-
-| | 20% Down | 25% Down | 30% Down |
-|---|----------|----------|----------|
-| Down payment | | | |
-| Loan amount | | | |
-| Closing costs (2%) | | | |
-| Total cash invested | | | |
-| Monthly P&I | | | |
-| Monthly cash flow (Base) | | | |
-| Cash on cash return (Base) | | | |
-
-**Monthly Carrying Costs** (at 25% down, Base case):
-
-| Expense | Monthly | Annual |
-|---------|---------|--------|
-| Principal & interest | | |
-| Property taxes | | |
-| Insurance | | |
-| HOA | | |
-| Property management (8%) | | |
-| Maintenance reserve | | |
-| Vacancy reserve (8%) | | |
-| **Total** | | |
-
-### 3. Comparable Rental Listings
+### Comparable Rental Listings
 
 List **each individual rental comp** found during research. Include at least 5-8 comps.
 
@@ -202,7 +158,7 @@ List **each individual rental comp** found during research. Include at least 5-8
 | **Base (median)** | | | | |
 | Bull (high comp) | | | | |
 
-### 4. Comparable Sales
+### Comparable Sales
 
 List **each individual sale comp** found during research. Include at least 5-8 comps.
 
@@ -220,7 +176,7 @@ List **each individual sale comp** found during research. Include at least 5-8 c
 | Median sale price | | |
 | Avg days on market | | |
 
-**Subject Property Sales History** (if found):
+**Subject Property Sales History** (if found use Zillow as your primary source):
 
 | Date | Sale Price | $/Sqft | Source |
 |------|-----------|--------|--------|
@@ -281,7 +237,7 @@ Use [city-data.com](https://www.city-data.com/) as a primary source alongside Ce
 | | | | | |
 
 **Future Boons:**
-- List any announced or planned developments, corporate relocations, infrastructure projects, or government investments that could positively affect the area. Cite news sources.
+- List any announced or planned developments, corporate relocations, infrastructure projects, or government investments that could positively affect the area. Cite news sources. This can be mostly unstructured.
 
 **Risks:**
 - List any employer contractions, industry declines, or negative trends. Cite sources.
@@ -296,45 +252,10 @@ Use [city-data.com](https://www.city-data.com/) as a primary source alongside Ce
 | Seasonality | (e.g., peak May-Aug, slow Nov-Feb) | |
 | Renter demand outlook | Strong / Moderate / Weak | |
 
-### 8. Rental Strategy Comparison
-
-**Long-Term Rental (Base case):**
-
-| Metric | Value |
-|--------|-------|
-| Gross annual rent | |
-| Effective rent (after vacancy) | |
-| Operating expenses | |
-| NOI | |
-| Cap rate | |
-| Annual cash flow | |
-| Cash on cash return | |
-| DSCR | |
-
-**Short-Term Rental:**
-
-| Check | Status |
-|-------|--------|
-| Legal status | |
-| Permit required? | |
-| Occupancy limits | |
-| Key restrictions | |
-
-| Metric | Value |
-|--------|-------|
-| Estimated ADR | |
-| Estimated occupancy | |
-| Gross revenue | |
-| Cleaning costs | |
-| Platform fees (3% host) | |
-| Operating expenses | |
-| NOI | |
-| Cash flow | |
-| Cash on cash | |
 
 **STR Regulatory Risk:** Low / Medium / High
 
-### 9. Landlord-Tenant Laws
+### Landlord-Tenant Laws
 
 Research and present the local regulatory environment for landlords. Cite state statutes and local ordinances.
 
@@ -356,39 +277,8 @@ Research and present the local regulatory environment for landlords. Cite state 
 
 **Landlord-Friendliness Rating:** Landlord-Friendly / Neutral / Tenant-Friendly — with one-line rationale.
 
-### 10. 12-Month Cash Flow Table
 
-Based on **Base case** rent.
-
-| Month | Rent | Vacancy | Mgmt | Taxes | Insurance | HOA | Maint | Mortgage | Net CF | Principal Paid | Cumulative Equity |
-|-------|------|---------|------|-------|-----------|-----|-------|----------|--------|----------------|-------------------|
-| 1-12 rows | | | | | | | | | | | |
-| **Totals** | | | | | | | | | | | |
-
-### 11. 5-Year and 10-Year Projection
-
-Using historical city appreciation rate (state the rate used). Based on **Base case**.
-
-| Year | Property Value | Loan Balance | Equity | Cumulative Cash Flow | Total ROI | IRR |
-|------|---------------|--------------|--------|---------------------|-----------|-----|
-| 1 | | | | | | |
-| 2 | | | | | | |
-| 3 | | | | | | |
-| 4 | | | | | | |
-| 5 | | | | | | |
-| 10 | | | | | | |
-
-### 12. Sensitivity Analysis
-
-| Scenario | Monthly CF | Annual CF | Cash on Cash | Still CF Neutral? |
-|----------|-----------|-----------|--------------|-------------------|
-| Base case | | | | |
-| Interest rate +1% | | | | |
-| Vacancy 10% | | | | |
-| Rent -5% | | | | |
-| All three combined | | | | |
-
-### 13. Final Investment Verdict
+### Final Investment Verdict
 
 - **Meets cash flow neutral requirement (Base case):** Yes / No
 - **Primary strengths:** (2-3 bullets)
@@ -408,15 +298,15 @@ After printing the full analysis to terminal, create a folder on the Desktop and
 - Create the folder with `mkdir -p` before saving files
 
 **Files inside the folder:**
-1. **PDF file:** `~/Desktop/{property-name}/property-analysis.pdf` — a styled PDF version of the full analysis
-2. **Excel file:** `~/Desktop/{property-name}/property-cashflow.xlsx` — the cash flow spreadsheet
+1. **PDF file:** `~/Desktop/{property-name}/market-research.pdf` — the market research report (comps, area economics, employers, renter demand, landlord-tenant laws, investment verdict). This is the research — useful for understanding the market even beyond this specific deal.
+2. **Excel file:** `~/Desktop/{property-name}/property-cashflow.xlsx` — the property-specific financial model with adjustable inputs (down payment, rate, rents) and live formulas. This is where the user tweaks numbers and runs scenarios.
 
 ### 5a. PDF Generation
 
 1. Save the full analysis as a temporary markdown file: `/tmp/property-analysis.md`
 2. Use `pandoc` to convert to HTML: `pandoc /tmp/property-analysis.md -f markdown -t html5 --standalone -o /tmp/analysis.html`
 2. Inject professional print CSS (letter size, 0.6in margins, clean table styling, page-break-inside: avoid on tables)
-3. Use the venv at `/tmp/pdfenv/bin/python3` to convert HTML to PDF, saving to `~/Desktop/{property-name}/property-analysis.pdf`:
+3. Use the venv at `/tmp/pdfenv/bin/python3` to convert HTML to PDF, saving to `~/Desktop/{property-name}/market-research.pdf`:
    ```python
    from weasyprint import HTML
    HTML(string=styled_html).write_pdf(pdf_path)
